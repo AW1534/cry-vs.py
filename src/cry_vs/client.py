@@ -3,9 +3,9 @@ import json
 from .emitter import Emitter
 from .HTTPHelper import http
 
-
 class Client:
     funcs = []
+    this = ""
 
     def listen(func):
         Client.funcs.append(func)
@@ -33,8 +33,10 @@ class Client:
         )
 
         emitter = Emitter(funcs=self.funcs, expire=r.headers["Expire"])
-        emitter.enqueue(name="on_ready")
+        emitter.enqueue(name="on_ready", args=r.headers["Expire"])
         emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
 
-    def end():
-        exit(0)
+
+
+    def __init__(self):
+        atexit.register(self)

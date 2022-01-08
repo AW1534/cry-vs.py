@@ -10,7 +10,8 @@ class Emitter:
                  expire,
                  events=[
                      "any_event",
-                     "on_ready"
+                     "on_ready",
+                     "on_exit"
                  ],
                  ):
         self.funcs = funcs
@@ -23,15 +24,15 @@ class Emitter:
             for func in self.funcs:
                 if func.__name__ in self.events and func.__name__ == curr[0].lower():
                     try:
-                        func(*curr[1])
+                        asyncio.run(func(curr[1]))
                     except TypeError:
-                        func()
+                        asyncio.run(func())
 
                 if func.__name__ == "any_event":
                     try:
-                        func(*curr[1])
+                        asyncio.run(func(curr[1]))
                     except TypeError:
-                        func()
+                        asyncio.run(func())
 
     def enqueue(self, name, args=[]):
         self.q.put(item=[name, args])
