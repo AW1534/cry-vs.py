@@ -1,8 +1,15 @@
 import requests
 from enum import Enum
 
+
 class http:
-    resFile = "Helper/response_codes.txt"
+    codes = {
+        400: "BAD REQUEST",
+        404: "NOT FOUND",
+        405: "METHOD NOT ALLOWED",
+
+        500: "INTERNAL SERVER ERROR",
+    }
 
     class methods(Enum):
         GET = 1
@@ -41,17 +48,9 @@ class http:
                 url=url, data=data
             )
         if (r.status_code != 200):
-            print(f"{r.status_code} {http.findCode(r.status_code)}")
+
+            print(f"{r.status_code} {http.findCode(http, r.status_code)}")
         return r
 
-
-    def findCode(code):
-        list = []
-        f = open(http.resFile)
-        list = f.readlines()
-
-        for line in list:
-            if line.startswith(f"{code}"):
-                ans = line.split("=")[1]
-
-        return ans
+    def findCode(self, code):
+        return self.codes[code]

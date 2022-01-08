@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.0",
+    version="0.0.0.2",
     author="addikted",
     # author_email="author@example.com",
     description="A Crypto-Versus wrapper",

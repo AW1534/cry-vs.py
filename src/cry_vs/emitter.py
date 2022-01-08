@@ -1,7 +1,9 @@
+import asyncio
 import queue
 
 class Emitter:
     q = queue.Queue()
+    loop = asyncio.get_event_loop()
 
     def __init__(self,
                  funcs,
@@ -20,6 +22,12 @@ class Emitter:
             curr = self.q.get()
             for func in self.funcs:
                 if func.__name__ in self.events and func.__name__ == curr[0].lower():
+                    try:
+                        func(*curr[1])
+                    except TypeError:
+                        func()
+
+                if func.__name__ == "any_event":
                     try:
                         func(*curr[1])
                     except TypeError:
