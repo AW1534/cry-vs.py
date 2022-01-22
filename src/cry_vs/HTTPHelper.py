@@ -1,8 +1,11 @@
+import logging
+""
+
 import requests
 from enum import Enum
 
 
-class http:
+class HTTP:
     codes = {
         400: "BAD REQUEST",
         404: "NOT FOUND",
@@ -11,7 +14,7 @@ class http:
         500: "INTERNAL SERVER ERROR",
     }
 
-    class methods(Enum):
+    class Methods(Enum):
         GET = 1
         HEAD = 2
         POST = 3
@@ -22,7 +25,7 @@ class http:
         TRACE = 8
 
     def sendRequest(
-            method=methods.GET,
+            method=Methods.GET,
             url=None,
             data=None,
             json=None,
@@ -37,9 +40,11 @@ class http:
             hooks=None,
             stream=None,
             verify=None,
-            cert=None
+            cert=None,
+            supress=False,
     ):
-        methods = http.methods
+        logging.debug("request: " + str(method) + " " + str(url))
+        methods = HTTP.Methods
 
         if method == methods.TRACE or method == methods.CONNECT:
             raise NotImplemented
@@ -47,9 +52,8 @@ class http:
             r = getattr(requests, method.name.lower())(
                 url=url, data=data
             )
-        if (r.status_code != 200):
-
-            print(f"{r.status_code} {http.findCode(http, r.status_code)}")
+        if r.status_code != 200 and supress is False:
+            logging.warning(f"{r.status_code} {HTTP.findCode(HTTP, r.status_code)}")
         return r
 
     def findCode(self, code):

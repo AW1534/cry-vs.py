@@ -1,5 +1,7 @@
 import asyncio
 import queue
+import sys
+
 
 class Emitter:
     q = queue.Queue()
