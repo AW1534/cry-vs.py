@@ -72,6 +72,4 @@ or with your username and password:
 ```python
 cry.login("USERNAME", "PASSWORD")
 ```
-
-
 <!-- footer gets added here for pypi version in setup.py-->

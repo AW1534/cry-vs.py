@@ -1,13 +1,13 @@
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read() + "\n\n"
-    """---"""
-    """*found an issue? <a href="https://github.com/AW1534/cry-vs">please make a PR!</a>*"""
+    long_description = fh.read() + "\n\n" + \
+    """---\n""" + \
+    """*found an issue? (Please make a PR!)[https://github.com/AW1534/cry-vs]*"""
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.6",
+    version="0.0.0.7",
     author="addikted",
     description="A Crypto-Versus wrapper",
     long_description=long_description,
