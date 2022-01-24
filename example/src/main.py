@@ -1,26 +1,28 @@
 import sys
 import logging
-logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.DEBUG)
+
+logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.INFO)
 
 import os
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from cry_vs.client import Client
 
-client = Client(key=os.environ["KEY"])
+client = Client()
 
 
-@Client.listen
+@client.listen
 async def on_ready():
     print("logged in")
 
 
-@Client.listen
+@client.listen
 async def any_event():
     print("an event has been called")
 
 
 print("Logging in...")
-client.login()
+client.login(os.environ["KEY"])

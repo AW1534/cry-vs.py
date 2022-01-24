@@ -1,15 +1,14 @@
-import subprocess
-
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+    long_description = fh.read() + "\n\n"
+    """---"""
+    """*found an issue? <a href="https://github.com/AW1534/cry-vs">please make a PR!</a>*"""
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.4",
+    version="0.0.0.6",
     author="addikted",
-    # author_email="author@example.com",
     description="A Crypto-Versus wrapper",
     long_description=long_description,
     long_description_content_type="text/markdown",
