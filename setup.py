@@ -3,11 +3,11 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read() + "\n\n" + \
     """---\n""" + \
-    """*found an issue? (Please make a PR!)[https://github.com/AW1534/cry-vs]*"""
+    """*found an issue? [Please make a PR!](https://github.com/AW1534/cry-vs)*"""
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.7",
+    version="0.0.0.10",
     author="addikted",
     description="A Crypto-Versus wrapper",
     long_description=long_description,
@@ -22,7 +22,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Development Status :: 2 - Pre-Alpha",
         "Natural Language :: English",
-        "Topic :: Internet :: WWW/HTTP"
+        "Topic :: Internet :: WWW/Socket"
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),

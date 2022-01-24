@@ -27,12 +27,14 @@ Once you have done that, you can create a client.
 cry = Client()
 ```
 
-while key is the only required argument, you can also pass in the other arguments.
+while there are no required arguments, you can also pass in the other arguments.
 <details>
 <summary>Other arguments that Client accepts</summary>
 <ul>
-    <li> <code> server: string = "cry-vs.herokuapp.com"</code> the url of the server you want to connect to. </li>
+    <li> <code>host: string = "cry-vs.herokuapp.com"</code> the url of the server you want to connect to. </li>
+    <li> <code>port: int = 80</code> the port that the socket should listen to.</li>
     <li> <code>allow_unsecure: bool = False</code> whether to allow unsecure connections.</li>
+    <li> <code>keep_alive: bool = True</code> whether to keep the client validated by automatically refreshing the token</li>
 </ul>
 </details>
 
@@ -65,11 +67,11 @@ this will start the event loop, and will not return until the client is closed. 
 
 you can log in with a key:
 ```python
-cry.login("KEY")
+cry.login("key")
 ```
 
 or with your username and password:
 ```python
-cry.login("USERNAME", "PASSWORD")
+cry.login("username", "password")
 ```
 <!-- footer gets added here for pypi version in setup.py-->

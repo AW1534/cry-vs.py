@@ -7,7 +7,7 @@ if not logger.hasHandlers():
         logger.addHandler(handler)
 
 import json
-from .HTTPHelper import HTTP
+from .HTTPHelper import Socket
 
 
 class Client:
@@ -16,30 +16,33 @@ class Client:
 
         class _Token:
             text: str = None
-
             time: datetime.datetime = None
 
             def __init__(self, text: str, time: int):
                 self.text = text
                 self.time = datetime.timedelta(milliseconds=time) + datetime.datetime.now()
-                logger.debug("Token:" + self.text)
+
+            def __str__(self):
+                return self.text
 
             def _update(self, text: str, time: int):
                 self.text = text
                 self.time = datetime.timedelta(milliseconds=time) + datetime.datetime.now()
 
     _self = None
-    key = None
-    server = None
-    allowUnsecure = None
-    keep_alive = None
+    socket: Socket = None
+    host: str = None
+    allowUnsecure: bool = None
+    keep_alive: bool = None
 
     auth: _Auth = _Auth()
+    token: auth._Token = None
 
-    def __init__(self, server="https://cry-vs.herokuapp.com", allow_unsecure=False, keep_alive=True):
+    def __init__(self, host="https://cry-vs.herokuapp.com", port=80, allow_unsecure=False, keep_alive=True):
         from .emitter import Emitter
         self.Emitter = Emitter
-        self.server = server
+        self.socket = Socket(host=host, port=port, client=self)
+        self.host = host
         self.allowUnsecure = allow_unsecure
         self.keep_alive = keep_alive
         logging.info("Client created")
@@ -51,10 +54,10 @@ class Client:
         self.funcs.append(func)
 
     def login(self, *args):
-        server = self.server
+        server = self.host
         if not server.lower().startswith("https://cry-vs.herokuapp.com") and not server.lower().startswith(
                 "https://beta-cry-vs.herokuapp.com"):
-            logger.warning("This is not an official Crypto Versus server. Please proceed with caution")
+            logger.warning("This is not an official Crypto Versus host. Please proceed with caution")
 
         if server.lower().startswith("https://beta-cry-vs.herokuapp.com"):
             logger.warning(
@@ -74,11 +77,11 @@ class Client:
             emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
 
         if len(args) == 0:
-            logger.critical("No auth data provided. please provide a username and password, or an API key")
+            logger.critical("No auth data provided. please provide a username and password, or an API token")
         elif len(args) == 1:
             logger.info("using API key")
-            r = HTTP.send_request(
-                method=HTTP.methods.POST,
+            r = self.socket.Send_Request(
+                method=self.socket.Methods.POST,
                 url=server + "/api/login",
                 data=json.dumps({
                     "key": args[0]
@@ -87,8 +90,8 @@ class Client:
             finish(r)
         elif len(args) == 2:
             logger.info("using username and password")
-            r = HTTP.send_request(
-                method=HTTP.methods.POST,
+            r = self.socket.Send_Request(
+                method=self.socket.Methods.POST,
                 url=server + "/api/login",
                 data=json.dumps({
                     "username": args[0],
@@ -98,9 +101,9 @@ class Client:
             finish(r)
 
     async def before_expire(self):
-        r = HTTP.send_request(
-            method=HTTP.methods.POST,
-            url=self.server + "/api/refresh-token",
+        r = self.socket.Send_Request(
+            method=self.socket.Methods.POST,
+            url=self.host + "/api/refresh-token",
             data=json.dumps({
                 "token": self.auth.token.text
             })
