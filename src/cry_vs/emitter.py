@@ -25,6 +25,7 @@ class Emitter:
             events = [
                 "any_event",
                 "on_ready",
+                "on_token_refresh",
                 "before_expire",
             ]
         self.funcs = funcs
@@ -32,12 +33,17 @@ class Emitter:
         self.events = events
 
     def queue(self):
+        logging.debug("queue has started, any events queued will be processed and fired")
         while True:
+            self.client._self = self.client
             if self.client.auth.token.time < datetime.datetime.now() + datetime.timedelta(seconds=2) and self.client.keep_alive:
                 logging.info("token about to expire. refreshing...")
                 for func in self.funcs:
                     if func.__name__ == "before_expire":
-                        asyncio.run(func(self.client))
+                        try:
+                            asyncio.run(func(self.client))
+                        except TypeError:
+                            asyncio.run(func)
 
 
             if self.q.empty():

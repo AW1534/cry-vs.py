@@ -30,7 +30,6 @@ class Client:
                 self.time = datetime.timedelta(milliseconds=time) + datetime.datetime.now()
 
     _self = None
-    socket: Socket = None
     host: str = None
     allowUnsecure: bool = None
     keep_alive: bool = None
@@ -39,12 +38,14 @@ class Client:
     token: auth._Token = None
 
     def __init__(self, host="https://cry-vs.herokuapp.com", port=80, allow_unsecure=False, keep_alive=True):
+        self.emitter = None
+        self.socket = Socket(host=host, port=port, client=self)
         from .emitter import Emitter
         self.Emitter = Emitter
-        self.socket = Socket(host=host, port=port, client=self)
         self.host = host
         self.allowUnsecure = allow_unsecure
         self.keep_alive = keep_alive
+        self.funcs.append(self.before_expire())
         logging.info("Client created")
 
     funcs = []
@@ -72,9 +73,12 @@ class Client:
         def finish(r):
             logger.debug(self.funcs)
             self.auth.token = self._Auth._Token(r.text, int(r.headers["Expire"]))
-            emitter = self.Emitter(funcs=self.funcs, client=self)
-            emitter.enqueue(name="on_ready", args=r.headers["Expire"])
-            emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
+            self.emitter = self.Emitter(funcs=self.funcs, client=self)
+            self.emitter.enqueue(name="on_ready", args=r.headers["Expire"])
+            try:
+                self.emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
+            except KeyboardInterrupt:
+                logger.info("KeyboardInterrupt")
 
         if len(args) == 0:
             logger.critical("No auth data provided. please provide a username and password, or an API token")
@@ -109,6 +113,5 @@ class Client:
             })
         )
         self.auth.token._update(r.text, int(r.headers["Expire"]))
+        self.emitter.enqueue(name="on_token_refresh", args=r.headers["Expire"])
         logger.info("Token refreshed")
-
-    funcs.append(before_expire)

@@ -18,6 +18,10 @@ client = Client()
 async def on_ready():
     print("logged in")
 
+@client.listen
+async def on_token_refresh():
+    print("token has been refreshed")
+
 
 @client.listen
 async def any_event():

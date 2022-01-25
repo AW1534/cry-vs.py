@@ -1,7 +1,5 @@
 import logging
 
-""
-
 import requests
 from enum import Enum
 
@@ -13,7 +11,7 @@ if not logger.hasHandlers():
 _Codes = {
     200: "OK",
 
-    401: "Unauthorized",
+    401: "UNAUTHORIZED",
     400: "BAD REQUEST",
     403: "FORBIDDEN",
     404: "NOT FOUND",
@@ -35,7 +33,7 @@ class _Methods(Enum):
 
 
 def _Send_Request(
-        _ = None,
+        _=None,
         method: _Methods = None,
         url=None,
         data=None,
@@ -78,8 +76,3 @@ class Socket:
         self.client = client
         self.host = host
         self.port = port
-        self.url = host + ":" + str(port)
-
-
-
-

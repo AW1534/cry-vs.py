@@ -55,7 +55,7 @@ you can add as many events as you want, and they depend on the name. (function m
 <ul>
     <li> <code>any_event()</code> fired when any event is called</li>
     <li> <code>on_ready()</code> fired when the event emitter is initialized (right after the client has logged in) </li>
-<li> <code>before_expire()</code> fired up to 2 seconds before the token expires </li>
+    <li> <code>on_token_refresh()</code> fired after the token has been refreshed</li>
 </ul>
 </details>
 
