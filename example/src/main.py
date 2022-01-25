@@ -1,22 +1,21 @@
-import sys
 import logging
+import os
+import sys
 
 logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.INFO)
 
-import os
-
 from dotenv import load_dotenv
-
-load_dotenv()
 
 from cry_vs.client import Client
 
+load_dotenv()
 client = Client()
 
 
 @client.listen
 async def on_ready():
     print("logged in")
+
 
 @client.listen
 async def on_token_refresh():
