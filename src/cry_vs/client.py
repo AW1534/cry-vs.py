@@ -1,6 +1,8 @@
 import datetime
 import logging
 
+from . import exceptions
+
 logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
     for handler in logging.getLogger().handlers:
@@ -45,7 +47,7 @@ class Client:
         self.host = host
         self.allowUnsecure = allow_unsecure
         self.keep_alive = keep_alive
-        self.funcs.append(self.before_expire())
+        self.funcs.append(self.before_expire)
         logging.info("Client created")
 
     funcs = []
@@ -91,7 +93,10 @@ class Client:
                     "key": args[0]
                 })
             )
-            finish(r)
+            if r.status_code == 401:
+                raise exceptions.AuthFailed("Invalid credentials. the server returned 401")
+            else:
+                finish(r)
         elif len(args) == 2:
             logger.info("using username and password")
             r = self.socket.Send_Request(
@@ -102,7 +107,10 @@ class Client:
                     "password": args[1]
                 })
             )
-            finish(r)
+            if r.status_code == 401:
+                raise exceptions.AuthFailed("Invalid credentials. the server returned 401")
+            else:
+                finish(r)
 
     async def before_expire(self):
         r = self.socket.Send_Request(

@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.INFO)
+logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.DEBUG)
 
 from dotenv import load_dotenv
 
@@ -28,4 +28,4 @@ async def any_event():
 
 
 print("Logging in...")
-client.login(os.environ["KEY"])
+client.login(os.getenv("KEY"))

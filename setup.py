@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.10",
+    version="0.0.0.11",
     author="addikted",
     description="A Crypto-Versus wrapper",
     long_description=long_description,
@@ -22,7 +22,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Development Status :: 2 - Pre-Alpha",
         "Natural Language :: English",
-        "Topic :: Internet :: WWW/Socket"
+        "Topic :: Internet :: WWW/HTTP"
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),

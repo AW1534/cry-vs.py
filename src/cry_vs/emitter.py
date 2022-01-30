@@ -1,3 +1,4 @@
+import warnings
 import asyncio
 import datetime
 import logging
@@ -33,6 +34,7 @@ class Emitter:
         self.events = events
 
     def queue(self):
+        warnings.simplefilter("ignore")
         logging.debug("queue has started, any events queued will be processed and fired")
         while True:
             self.client._self = self.client
@@ -41,9 +43,15 @@ class Emitter:
                 for func in self.funcs:
                     if func.__name__ == "before_expire":
                         try:
-                            asyncio.run(func(self.client))
-                        except TypeError:
-                            asyncio.run(func)
+                            try:
+                                asyncio.create_task(func(self.client))
+                            except TypeError:
+                                asyncio.create_task(func())
+                        except RuntimeError:
+                            try:
+                                asyncio.run(func(self.client))
+                            except TypeError:
+                                asyncio.run(func())
 
 
             if self.q.empty():
@@ -53,15 +61,27 @@ class Emitter:
             for func in self.funcs:
                 if func.__name__ in self.events and func.__name__ == curr[0].lower():
                     try:
-                        asyncio.run(func(curr[1]))
-                    except TypeError:
-                        asyncio.run(func())
+                        try:
+                            asyncio.create_task(func(curr[1]))
+                        except TypeError:
+                            asyncio.create_task(func())
+                    except RuntimeError:
+                        try:
+                            asyncio.run(func(curr[1]))
+                        except TypeError:
+                            asyncio.run(func())
 
                 if func.__name__ == "any_event":
                     try:
-                        asyncio.run(func(curr[1]))
-                    except TypeError:
-                        asyncio.run(func())
+                        try:
+                            asyncio.create_task(func(curr[1]))
+                        except TypeError:
+                            asyncio.create_task(func())
+                    except RuntimeError:
+                        try:
+                            asyncio.run(func(curr[1]))
+                        except TypeError:
+                            asyncio.run(func())
 
     def enqueue(self, name, args: list = None):
         if args is None:
