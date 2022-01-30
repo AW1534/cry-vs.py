@@ -6,7 +6,7 @@ with open("config.json") as f:
 
 version = config["version"]
 
-with open("./docs/source/index.md", "r", encoding="utf-8") as fh:
+with open("docs/source/index.md", "r", encoding="utf-8") as fh:
     long_description = fh.read() + "\n\n" + \
     """---\n""" + \
     """*found an issue? [Please make an issue!](https://github.com/AW1534/cry-vs)*"""
