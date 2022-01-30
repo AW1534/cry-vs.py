@@ -1,1 +1,1 @@
-# documentation is located at [/docs/source/README.md](/docs/source/README.md)
+# documentation is located at [/docs/source/README.md](https://github.com/AW1534/cry-vs.py/blob/master/docs/source/index.md)
