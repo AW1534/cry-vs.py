@@ -50,7 +50,7 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-source_suffix = ['.rst', '.md']
+source_suffix = ['.md']
 
 
 # -- Options for HTML output -------------------------------------------------
