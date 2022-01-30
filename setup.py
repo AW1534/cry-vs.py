@@ -1,13 +1,19 @@
 import setuptools
+import json
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("config.json") as f:
+    config = json.load(f)
+
+version = config["version"]
+
+with open("./docs/source/index.md", "r", encoding="utf-8") as fh:
     long_description = fh.read() + "\n\n" + \
     """---\n""" + \
-    """*found an issue? [Please make a PR!](https://github.com/AW1534/cry-vs)*"""
+    """*found an issue? [Please make an issue!](https://github.com/AW1534/cry-vs)*"""
 
 setuptools.setup(
     name="cry-vs.py",
-    version="0.0.0.11",
+    version=str(version),
     author="addikted",
     description="A Crypto-Versus wrapper",
     long_description=long_description,
