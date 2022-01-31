@@ -31,7 +31,7 @@ release = '0.0.0.11'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "myst-parser",
+    "myst_parser",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
