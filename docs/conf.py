@@ -15,14 +15,6 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
-import json
-
-with open("../../config.json") as f:
-    config = json.load(f)
-
-version = config["version"]
-
-
 # -- Project information -----------------------------------------------------
 
 project = 'cry-vs.py'
@@ -30,7 +22,7 @@ copyright = '2022, addikted'
 author = 'addikted'
 
 # The full version, including alpha/beta/rc tags
-release = version
+release = '0.0.0.11'
 
 
 # -- General configuration ---------------------------------------------------
@@ -39,10 +31,8 @@ release = version
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'myst_parser'
+    "myst_parser",
 ]
-
-source_suffix = [".md"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,7 +40,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
 # -- Options for HTML output -------------------------------------------------
