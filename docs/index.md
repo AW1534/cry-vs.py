@@ -5,7 +5,9 @@ An official API wrapper for [Crypto_Versus](https://github.com/ProtagonistsWasTa
 Installation is simple. just run `$ python -m pip install cry_vs.py` in your terminal.
 
 ## Usage
+```{note}
 This package is used in a way similar to [discord.py](https://pypi.org/project/discord.py/). if you know how to use discord.py, the following steps should be a cakewalk.
+```
 
 ---
 ### Initialization & logger setup
@@ -65,13 +67,16 @@ finally, you can call `cry.login()` to start the client.
 
 this will start the event loop, and will not return until the client is closed. any logic that needs to be done after the client has been started should be done in the `on_ready` event.
 
-you can log in with a key:
+````{tabbed} API Key
 ```python
 cry.login("key")
 ```
+````
 
-or with your username and password:
+````{tabbed} Username and Password
 ```python
 cry.login("username", "password")
 ```
+````
+
 <!-- footer gets added here for pypi version in setup.py-->
