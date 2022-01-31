@@ -59,4 +59,4 @@ html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
 
 # main file
-main_doc = "index"
+master_doc = 'index'
