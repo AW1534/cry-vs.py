@@ -3,5 +3,6 @@
 /.idea/
 *.log
 *.env
-/docs/build/
+
+# all files created by the build process
 /docs/_build/
