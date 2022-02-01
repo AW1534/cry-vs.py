@@ -4,6 +4,5 @@
 *.log
 *.env
 
-
+# all files created by the build process
 /docs/_build/
-/src/cry_vs.py.egg-info/
