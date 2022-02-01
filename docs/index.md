@@ -5,7 +5,7 @@ An official API wrapper for [Crypto_Versus](https://github.com/ProtagonistsWasTa
 Installation is simple. just run `$ python -m pip install cry_vs.py` in your terminal.
 
 ## Usage
-```{note}
+```{note} 
 This package is used in a way similar to [discord.py](https://pypi.org/project/discord.py/). if you know how to use discord.py, the following steps should be a cakewalk.
 ```
 
