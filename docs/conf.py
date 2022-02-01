@@ -19,7 +19,6 @@ extensions = [
     "sphinxext.opengraph",
     "sphinx_copybutton",
     "sphinx_panels",
-    "sphinxext.opengraph"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
