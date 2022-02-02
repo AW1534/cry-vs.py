@@ -1,6 +1,8 @@
 import datetime
 import logging
+import secrets
 
+import cry_vs.emitter
 from . import exceptions
 
 logger = logging.getLogger(__name__)
@@ -14,8 +16,6 @@ from .HTTPHelper import Socket
 
 class Client:
     class _Auth:
-        token = None
-
         class _Token:
             text: str = None
             time: datetime.datetime = None
@@ -30,6 +30,8 @@ class Client:
             def _update(self, text: str, time: int):
                 self.text = text
                 self.time = datetime.timedelta(milliseconds=time) + datetime.datetime.now()
+
+        token: _Token = None
 
     _self = None
     host: str = None
@@ -58,6 +60,7 @@ class Client:
 
     def login(self, *args):
         server = self.host
+
         if not server.lower().startswith("https://cry-vs.herokuapp.com") and not server.lower().startswith(
                 "https://beta-cry-vs.herokuapp.com"):
             logger.warning("This is not an official Crypto Versus host. Please proceed with caution")
@@ -77,10 +80,22 @@ class Client:
             self.auth.token = self._Auth._Token(r.text, int(r.headers["Expire"]))
             self.emitter = self.Emitter(funcs=self.funcs, client=self)
             self.emitter.enqueue(name="on_ready", args=r.headers["Expire"])
-            try:
-                self.emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
-            except KeyboardInterrupt:
-                logger.info("KeyboardInterrupt")
+
+            try:    # test if the 3rd argument has been passed
+                if args[2] == False:
+                    logger.info(
+                        "You have disabled the event loop. This means that you will not be able to use the client until you call the Client.emitter.queue() function, but the client will still work.")
+                elif args[2] == True:
+                    try:
+                        self.emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
+                    except KeyboardInterrupt:
+                        logger.info("KeyboardInterrupt")
+
+            except IndexError:  # if the 3rd argument is not passed, default to True and start the event loop
+                try:
+                    self.emitter.queue()  # runs the event loop. this is an infinite function so anything that needs to be done should be done before this
+                except KeyboardInterrupt:
+                    logger.info("KeyboardInterrupt")
 
         if len(args) == 0:
             logger.critical("No auth data provided. please provide a username and password, or an API token")

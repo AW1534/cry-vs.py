@@ -21,7 +21,7 @@ class Emitter:
             funcs,
             client=None,
             events=None,
-            ):
+    ):
         if events is None:
             events = [
                 "any_event",
@@ -33,11 +33,16 @@ class Emitter:
         self.client = client
         self.events = events
 
+    def add_event(self, *events):
+        self.events.extend(events)
+
     def queue(self):
         warnings.simplefilter("ignore")
         logging.debug("queue has started, any events queued will be processed and fired")
         while True:
-            self.client._self = self.client
+            self.client._self = self.client  # update the client's self reference every iteration
+
+            # if the token is 2 seconds or less from expiring (and the client is set to keep alive), refresh it
             if self.client.auth.token.time < datetime.datetime.now() + datetime.timedelta(seconds=2) and self.client.keep_alive:
                 logging.info("token about to expire. refreshing...")
                 for func in self.funcs:
@@ -53,35 +58,39 @@ class Emitter:
                             except TypeError:
                                 asyncio.run(func())
 
-
-            if self.q.empty():
+            if self.q.empty():  # be as resourceful as possible- don't waste resources if there is nothing to do
                 continue
-            logger.debug(f"Emitter has {self.q.qsize()} events in queue")
-            curr = self.q.get()
-            for func in self.funcs:
-                if func.__name__ in self.events and func.__name__ == curr[0].lower():
-                    try:
-                        try:
-                            asyncio.create_task(func(curr[1]))
-                        except TypeError:
-                            asyncio.create_task(func())
-                    except RuntimeError:
-                        try:
-                            asyncio.run(func(curr[1]))
-                        except TypeError:
-                            asyncio.run(func())
 
-                if func.__name__ == "any_event":
-                    try:
+            try:
+                logger.debug(f"Emitter has {self.q.qsize()} events in queue")
+                curr = self.q.get()
+                for func in self.funcs:
+                    if func.__name__ in self.events and func.__name__ == curr[0].lower():
                         try:
-                            asyncio.create_task(func(curr[1]))
-                        except TypeError:
-                            asyncio.create_task(func())
-                    except RuntimeError:
+                            try:
+                                asyncio.create_task(func(curr[1]))
+                            except TypeError:
+                                asyncio.create_task(func())
+                        except RuntimeError:
+                            try:
+                                asyncio.run(func(curr[1]))
+                            except TypeError:
+                                asyncio.run(func())
+
+                    if func.__name__ == "any_event":
                         try:
-                            asyncio.run(func(curr[1]))
-                        except TypeError:
-                            asyncio.run(func())
+                            try:
+                                asyncio.create_task(func(curr[1]))
+                            except TypeError:
+                                asyncio.create_task(func())
+                        except RuntimeError:
+                            try:
+                                asyncio.run(func(curr[1]))
+                            except TypeError:
+                                asyncio.run(func())
+
+            except Exception as e:
+                logging.exception(f"Error in Emitter:\n{e}")
 
     def enqueue(self, name, args: list = None):
         if args is None:

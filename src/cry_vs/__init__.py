@@ -1,7 +1,6 @@
 import logging
 import sys
 
-
 logger = logging.getLogger(__name__)
 
 if not logging.getLogger().handlers:
@@ -12,7 +11,7 @@ if not logging.getLogger().handlers:
         """\timport sys\n\timport logging\n\tlogging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.INFO)\n\n"""
         """since this has not been configured, cry-vs.py will use a basic configuration.\n"""
         """https://docs.python.org/3/howto/logging.html for more info\n"""
-        """---- WARNING------\n"""
+        """---- WARNING ----\n"""
     )
     for handler in logging.getLogger().handlers:
         logger.addHandler(handler)
