@@ -30,15 +30,14 @@ cry = Client()
 ```
 
 while there are no required arguments, you can also pass in the other arguments.
-<details>
-<summary>Other arguments that Client accepts</summary>
-<ul>
-    <li> <code>host: string = "cry-vs.herokuapp.com"</code> the url of the server you want to connect to. </li>
-    <li> <code>port: int = 80</code> the port that the socket should listen to.</li>
-    <li> <code>allow_unsecure: bool = False</code> whether to allow unsecure connections.</li>
-    <li> <code>keep_alive: bool = True</code> whether to keep the client validated by automatically refreshing the token</li>
-</ul>
-</details>
+
+| **Name**           | **Type** | **Default value**      | **Description**                                                             |
+|--------------------|----------|------------------------|-----------------------------------------------------------------------------|
+| **host**           | string   | "cry-vs.herokuapp.com" | The url of the server you want to connect to.                               |
+| **port**           | int      | 80                     | The port that the socket should listen to.                                  |
+| **allow_unsecure** | bool     | False                  | Whether to allow unsecure connections.                                      |
+| **keep_alive**     | bool     | True                   | Whether to keep the client validated by automatically refreshing the token. |
+
 
 ---
 ### events
@@ -52,20 +51,16 @@ async def on_ready():
 ```
 
 you can add as many events as you want, and they depend on the name. (function must be asynchronous)
-<details>
-<summary>All events</summary>
-<ul>
-    <li> <code>any_event()</code> fired when any event is called</li>
-    <li> <code>on_ready()</code> fired when the event emitter is initialized (right after the client has logged in) </li>
-    <li> <code>on_token_refresh()</code> fired after the token has been refreshed</li>
-</ul>
-</details>
+
+| **Name**         | **Description**                                                                    |
+|------------------|------------------------------------------------------------------------------------|
+| any_event        | Fired when any event is called                                                     |                                                                                    |
+| on_ready         | Fired when the event emitter is initialized (right after the client has logged in) |
+| on_token_refresh | Fired after the token has been refreshed                                           |
 
 ---
 ### finalize
-finally, you can call `cry.login()` to start the client. 
-
-this will start the event loop, and will not return until the client is closed. any logic that needs to be done after the client has been started should be done in the `on_ready` event.
+finally, you can call `cry.login()` to start the client.
 
 ````{tabbed} API Key
 ```python
@@ -78,5 +73,8 @@ cry.login("key")
 cry.login("username", "password")
 ```
 ````
+```{warning}
+this will start the event loop, and will not return until the client is closed. any logic that needs to be done after this function should be done in the `on_ready` event.
+```
 
 <!-- footer gets added here for pypi version in setup.py-->
