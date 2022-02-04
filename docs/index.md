@@ -52,11 +52,11 @@ async def on_ready():
 
 you can add as many events as you want, and they depend on the name. (function must be asynchronous)
 
-| **Name**         | **Description**                                                                    |
-|------------------|------------------------------------------------------------------------------------|
-| any_event        | Fired when any event is called                                                     |                                                                                    |
-| on_ready         | Fired when the event emitter is initialized (right after the client has logged in) |
-| on_token_refresh | Fired after the token has been refreshed                                           |
+| **Name**             | **Description**                                                                    |
+|----------------------|------------------------------------------------------------------------------------|
+| **any_event**        | Fired when any event is called                                                     |                                                                                    |
+| **on_ready**         | Fired when the event emitter is initialized (right after the client has logged in) |
+| **on_token_refresh** | Fired after the token has been refreshed                                           |
 
 ---
 ### finalize
