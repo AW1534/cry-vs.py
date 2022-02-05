@@ -13,6 +13,9 @@ release = config["version"]
 
 ogp_site_url = "http://cry-vs-py.readthedocs.io/"
 ogp_type = "article"
+ogp_custom_meta_tags = [
+    '<meta property="og:ignore_canonical" content="true" />',
+]
 
 extensions = [
     "myst_parser",
