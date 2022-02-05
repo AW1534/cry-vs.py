@@ -4,4 +4,4 @@ Just a simple wrapper to assist you with the simple crypto-versus API.
 
 *docs [here](https://cry-vs-py.readthedocs.io/)*
 
----
+<!-- footer gets added here for pypi version in setup.py-->
