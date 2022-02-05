@@ -4,7 +4,6 @@ import sys
 logging.basicConfig(encoding="utf-8", stream=sys.stdout, level=logging.DEBUG)
 
 from dotenv import load_dotenv
-
 from cry_vs.client import Client
 
 load_dotenv()
@@ -12,8 +11,11 @@ cry = Client()
 
 
 @cry.listen
-async def on_ready():
+async def on_ready(ctx):
+    print(ctx)
     print("logged in")
+    input("Press enter to do something")
+    print(await cry.game.action())
 
 
 @cry.listen
