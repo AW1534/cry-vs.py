@@ -1,6 +1,7 @@
 import datetime
 import logging
 import secrets
+from functools import partial
 
 import cry_vs.emitter
 from . import exceptions
@@ -13,8 +14,22 @@ if not logger.hasHandlers():
 import json
 from .HTTPHelper import Socket
 
-
 class Client:
+    class _Game:
+        def __init__(self, client):
+            self.client = client
+
+        async def action(self):
+            r = self.client.socket.Send_Request(
+                method=self.client.socket.Methods.POST,
+                url=self.client.host + "/api/v0/dostuff",
+                data=json.dumps({
+                    "token": self.client.auth.token.text
+                })
+            )
+
+            return r
+
     class _Auth:
         class _Token:
             text: str = None
@@ -38,8 +53,8 @@ class Client:
     allowUnsecure: bool = None
     keep_alive: bool = None
 
+    game: _Game = None
     auth: _Auth = _Auth()
-    token: auth._Token = None
 
     def __init__(self, host="https://cry-vs.herokuapp.com", port=80, allow_unsecure=False, keep_alive=True):
         self.emitter = None
@@ -79,7 +94,8 @@ class Client:
             logger.debug(self.funcs)
             self.auth.token = self._Auth._Token(r.text, int(r.headers["Expire"]))
             self.emitter = self.Emitter(funcs=self.funcs, client=self)
-            self.emitter.enqueue(name="on_ready", args=r.headers["Expire"])
+            self.game = self._Game(self)
+            self.emitter.enqueue("on_ready", r.headers["Expire"]) # the user will most likely use this to start their code so ensure the client is ready to go before calling it
 
             try:    # test if the 3rd argument has been passed
                 if args[2] == False:
@@ -136,5 +152,5 @@ class Client:
             })
         )
         self.auth.token._update(r.text, int(r.headers["Expire"]))
-        self.emitter.enqueue(name="on_token_refresh", args=r.headers["Expire"])
+        self.emitter.enqueue("on_token_refresh", r.headers["Expire"])
         logger.info("Token refreshed")

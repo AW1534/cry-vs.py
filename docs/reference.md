@@ -1,4 +1,4 @@
-# cry-vs
+# API reference
 An official API wrapper for [Crypto_Versus](https://github.com/ProtagonistsWasTaken/crypto_versus)
 
 ## Installation
@@ -77,10 +77,3 @@ cry.login("username", "password")
 this will start the event loop, and will not return until the client is closed. any logic that needs to be done after this function should be done in the `on_ready` event.
 ```
 
-```{toctree}
-:hidden:
-reference.md
-```
-
-
-<!-- footer gets added here for pypi version in setup.py-->
