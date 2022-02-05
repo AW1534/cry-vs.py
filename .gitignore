@@ -3,11 +3,6 @@
 /.idea/
 *.log
 *.env
-
-# all files created by the build process
 /docs/_build/
-
-## __pycache__
-*/__pycache__/
-
+/__pycache__/
 *.egg-info
