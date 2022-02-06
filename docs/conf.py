@@ -50,5 +50,4 @@ master_doc = 'index'
 
 
 def setup(app):
-
     app.add_js_file("js/script.js")
