@@ -14,6 +14,7 @@ if not logger.hasHandlers():
 import json
 from .HTTPHelper import Socket
 
+
 class Client:
     class _Game:
         def __init__(self, client):
@@ -95,9 +96,10 @@ class Client:
             self.auth.token = self._Auth._Token(r.text, int(r.headers["Expire"]))
             self.emitter = self.Emitter(funcs=self.funcs, client=self)
             self.game = self._Game(self)
-            self.emitter.enqueue("on_ready", r.headers["Expire"]) # the user will most likely use this to start their code so ensure the client is ready to go before calling it
+            self.emitter.enqueue("on_ready", r.headers[
+                "Expire"])  # the user will most likely use this to start their code so ensure the client is ready to go before calling it
 
-            try:    # test if the 3rd argument has been passed
+            try:  # test if the 3rd argument has been passed
                 if args[2] == False:
                     logger.info(
                         "You have disabled the event loop. This means that you will not be able to use the client until you call the Client.emitter.queue() function, but the client will still work.")

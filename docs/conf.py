@@ -11,7 +11,7 @@ with open("../config.json") as f:
 
 release = config["version"]
 
-ogp_site_url = "http://cry-vs-py.readthedocs.io/"
+ogp_site_url = "https://cry-vs-py.readthedocs.io/"
 ogp_type = "article"
 ogp_custom_meta_tags = [
     '<meta property="og:ignore_canonical" content="true" />',
@@ -37,6 +37,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+
 html_theme = 'sphinx_book_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,

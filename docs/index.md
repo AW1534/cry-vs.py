@@ -3,19 +3,20 @@
 
 
 ````{panels}
-Modern ✨
+
+**Modern ✨**
 ^^^
 cry-vs.py is a modern library, with support for `async` and `await`.
 
 ---
 
-Full API coverage 🔨
+**Full API coverage 🔨**
 ^^^
 built by a maintainer of [Crypto_Versus](https://github.com/ProtagonistsWasTaken/crypto_versus) itself, cry-vs.py supports the full API, implementing beta features as they are released.
 
 ---
 
-Easy to use 📦
+**Easy to use 📦**
 ^^^
 cry-vs.py is a simple, easy to use library, with a simple API.
  
