@@ -26,7 +26,7 @@ cry-vs.py is a simple, easy to use library, with a simple API.
 
 Open source 🌐
 ^^^
-Nothing spooky, nothing scary, cry-vs.py is open source, and licensed under a very open [license](https://github.com/ProtagonistsWasTaken/crypto_versus/LICENSE).
+Nothing spooky, nothing scary, cry-vs.py is open source, and licensed under a very permissive [license](https://github.com/ProtagonistsWasTaken/crypto_versus/LICENSE).
 
 ````
 
